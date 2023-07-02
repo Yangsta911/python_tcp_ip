@@ -1,5 +1,6 @@
 import socket
 import sys
+import json
 
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
@@ -8,6 +9,8 @@ print >>sys.stderr, 'starting up on %s port %s' % server_address
 sock.bind(server_address)
 
 sock.listen(1)
+return_data = '{"id": 8001}'
+send_data = json.loads(return_data)
 
 while True:
     # Wait for a connection
@@ -21,12 +24,9 @@ while True:
         while True:
             data = connection.recv(16)
             print >>sys.stderr, 'received "%s"' % data
-            if data:
-                print >>sys.stderr, 'sending data back to the client'
-                connection.sendall(data)
-            else:
-                print >>sys.stderr, 'no more data from', client_address
-                break
+            if data == "8000":
+                print >>sys.stderr, 'sending data back to the client: %s' %send_data["id"]
+                connection.sendall(str(send_data["id"]))
             
     finally:
         # Clean up the connection

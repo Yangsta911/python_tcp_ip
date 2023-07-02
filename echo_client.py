@@ -1,5 +1,7 @@
 import socket
 import sys
+import json
+import time
 
 # Create a TCP/IP socket
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -9,22 +11,15 @@ server_address = ('localhost', 10000)
 print >>sys.stderr, 'connecting to %s port %s' % server_address
 sock.connect(server_address)
 
-try:
-    
+
+send_data = '{"id": 8000}'
+data = json.loads(send_data)
+
+while True:
     # Send data
-    message = 'This is the message.  It will be repeated.'
-    print >>sys.stderr, 'sending "%s"' % message
-    sock.sendall(message)
+    print >>sys.stderr, 'sending "%s"' % data["id"]
+    sock.sendall(str(data["id"]))
+    return_data = sock.recv(16)
+    print >>sys.stderr, 'received "%s"' % return_data  
+    time.sleep(15)
 
-    # Look for the response
-    amount_received = 0
-    amount_expected = len(message)
-    
-    while amount_received < amount_expected:
-        data = sock.recv(16)
-        amount_received += len(data)
-        print >>sys.stderr, 'received "%s"' % data
-
-finally:
-    print >>sys.stderr, 'closing socket'
-    sock.close()
