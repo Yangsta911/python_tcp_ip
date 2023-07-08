@@ -11,12 +11,11 @@ def alive_check():
 
     while True:
         # Send data
-        print >>sys.stderr, 'sending "%s\n"' % send_alive["id"]
+        print >>sys.stderr, 'sending "%s"\n' % send_alive["id"]
         sock.sendall(str(send_alive["id"]))
         return_data = sock.recv(16)
-        print(return_data)
         if return_data == "8001":
-            print >>sys.stderr, 'received "%s"' % return_data  
+            print >>sys.stderr, 'received "%s"\n' % return_data  
         time.sleep(15)
 
 
@@ -29,7 +28,6 @@ def handshake():
         print >>sys.stderr, 'sending "%s\n"' % send_handshake["id"]
         sock.sendall(str(send_handshake["id"]))
         return_data = sock.recv(16)
-        print(return_data)
         if return_data == "8101":
             print >>sys.stderr, 'received "%s"' % return_data  
         time.sleep(20)
