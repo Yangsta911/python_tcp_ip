@@ -9,7 +9,7 @@ print >>sys.stderr, 'starting up on %s port %s\n' % server_address
 sock.bind(server_address)
 
 sock.listen(1)
-return_alive = '{"id": 8001}'
+return_alive = '{"id": 8100}'
 send_alive = json.loads(return_alive)
 return_handshake = '{"id":8101}'
 send_handshake = json.loads(return_handshake)
